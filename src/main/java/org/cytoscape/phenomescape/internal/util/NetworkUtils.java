@@ -160,26 +160,7 @@ public class NetworkUtils {
 
 
 
-//	public static CyNetwork loadMouseNetwork(CyServiceRegistrar cyServiceRegistrar){
-//	//	File file= new File (NetworkUtils.class.getResource("/MouseNetwork.txt").getFile());
-//		File file= new File(Thread.currentThread().getContextClassLoader().getResource("/MouseNetwork.txt").getFile());
-//	//	File file = new File("/home/mqbpkjs2/PhenomeScape0.8/MouseNetwork.txt");
-//		CyNetwork network = readCyNetworkFromFile(cyServiceRegistrar,file);
-//		
-//		
-//		return network;
-//		
-//	}
 
-//	public static CyNetwork loadHumanNetwork(CyServiceRegistrar cyServiceRegistrar){
-//		File file= new File (NetworkUtils.class.getResource("/HumanNetwork.txt").getFile());
-//	//	File file = new File("/home/mqbpkjs2/PhenomeScape0.8/HumanNetwork.txt");
-//		CyNetwork network = readCyNetworkFromFile(cyServiceRegistrar,file);
-//		
-//		
-//		return network;
-//		
-//	}
 
 
 public static CySubNetwork createSubNetwork(CyRootNetwork cyRootNetwork, Collection<CyNode> cyNodes) {

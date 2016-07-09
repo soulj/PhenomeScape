@@ -77,21 +77,21 @@ public class GIGA {
 		//order the clusters by pvalue
 		Collections.sort(clusters,new GIGAClusterPvalueComparator());
 		
-		for (GIGACluster cluster : clusters){
-		ArrayList<CyNode> nodes = cluster.getCluster();
-		System.out.println("new cluster");
-		CyNode node = cluster.getLocalMin();
-		Integer id = proteinNetwork.getNode2IndexMap().get(node);
-		String name = proteinNetwork.getIndex2ProteinMap().get(id).getName();
-		System.out.println("localmin=" + name );
-		System.out.println("pvalue=" + cluster.getPvalue() );
-		for (CyNode node1: nodes){
-			id = proteinNetwork.getNode2IndexMap().get(node1);
-			name = proteinNetwork.getIndex2ProteinMap().get(id).getName();
-			System.out.println(name);			
-		}
-		
-	}
+//		for (GIGACluster cluster : clusters){
+//		ArrayList<CyNode> nodes = cluster.getCluster();
+//		System.out.println("new cluster");
+//		CyNode node = cluster.getLocalMin();
+//		Integer id = proteinNetwork.getNode2IndexMap().get(node);
+//		String name = proteinNetwork.getIndex2ProteinMap().get(id).getName();
+//		System.out.println("localmin=" + name );
+//		System.out.println("pvalue=" + cluster.getPvalue() );
+//		for (CyNode node1: nodes){
+//			id = proteinNetwork.getNode2IndexMap().get(node1);
+//			name = proteinNetwork.getIndex2ProteinMap().get(id).getName();
+//			System.out.println(name);			
+//		}
+//		
+//	}
 	
 		
 		

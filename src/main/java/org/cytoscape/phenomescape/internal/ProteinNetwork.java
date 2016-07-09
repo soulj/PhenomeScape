@@ -185,12 +185,8 @@ public class ProteinNetwork  {
 	public AMatrix normalise(double transitionProb,PhenoGeneNetwork phenoGeneNetwork) throws IOException{
 
 		Collection<Integer> annotated = phenoGeneNetwork.getGeneName2IndexMap().values();
-		FileWriter file3 = new FileWriter("/home/mqbpkjs2/helloProteinNames.txt");
 		AMatrix matrix = adjMatrix.copy();
 		for ( int i=0;i<matrix.rowCount();i++){
-			String myname = Index2ProteinMap.get(i).getName();
-			file3.write(myname+"\n");
-			
 			AVector row=matrix.getRow(i);
 			double sum=row.elementSum();
 			row=row.mutable();
@@ -203,7 +199,6 @@ public class ProteinNetwork  {
 				row.divide(sum);
 				matrix.replaceRow(i, row);
 			}
-			double[] myvalues = row.nonZeroValues();
 		}
 		return(matrix);
 	}
