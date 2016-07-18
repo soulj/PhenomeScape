@@ -135,34 +135,6 @@ public class NetworkUtils {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-//	CyNetworkReader networkReader = cyServiceRegistrar.getService(CyNetworkReaderManager.class).getReader(cyNetworkFile.toURI(), cyNetworkFile.getName());
-//	TaskIterator taskIterator = new TaskIterator(networkReader);
-//
-//	cyServiceRegistrar.getService(TaskManager.class).execute(taskIterator);
-//	//	//	CommandExecutor.execute(new TaskIterator(networkReader), cyServiceRegistrar);
-//
-//	cyServiceRegistrar.getService(LoadNetworkFileTaskFactory.class).createTaskIterator(cyNetworkFile);
-//	//		cyServiceRegistrar.getService(TaskManager.class);
-//	CyNetwork network = networkReader.getNetworks()[0];
-
-
-
-
-
-
-
-
 public static CySubNetwork createSubNetwork(CyRootNetwork cyRootNetwork, Collection<CyNode> cyNodes) {
 	Set<CyEdge> cyEdges = new HashSet<CyEdge>();
 	for (CyNode n : cyNodes) {

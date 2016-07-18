@@ -61,6 +61,9 @@ public class ProteinNetwork  {
 
 
 		CCInfo lcc = largestConnectedComponent();
+		if (lcc.getSize()<1) throw new IOException("Error filtering expression data - are the gene names correct?");
+		
+		
 		Set <CyNode> nodesToKeep = lcc.getNodes();
 
 		List <CyNode> currentNodeSet = network.getNodeList();
@@ -73,19 +76,25 @@ public class ProteinNetwork  {
 
 		//error checking
 		if (nodeTable.getColumn(pvalueName).getType() != Double.class){
-			throw new IOException("The p-values to be numeric!");
+			throw new IOException("The p-values to be numeric");
 		};
 		if (nodeTable.getColumn(foldChangeName).getType() != Double.class){
-			throw new IOException("The fold change values have to be numeric!");
+			throw new IOException("The fold change values have to be numeric");
 		};
 		if (Collections.min(nodeTable.getColumn(pvalueName).getValues(Double.class))<0){
-			throw new IOException("The p-values have to be positive!");
+			throw new IOException("The p-values have to be positive");
 		}
 		if (nodeTable.getColumn(pvalueName).getValues(Double.class).contains(null)){
-			throw new IOException("The pvalues can't be NA or blank!");
+			throw new IOException("The pvalues can't be NA or blank");
 		}
 		if (nodeTable.getColumn(foldChangeName).getValues(Double.class).contains(null)){
-			throw new IOException("The pvalues can't be NA or blank!");
+			throw new IOException("The pvalues can't be NA or blank");
+		}
+		try {
+			nodeTable.getColumn(geneNameName).getValues(String.class).contains(null);
+		}
+		catch (Exception e){
+			throw new IOException("Gene Names must be a strings");
 		}
 
 

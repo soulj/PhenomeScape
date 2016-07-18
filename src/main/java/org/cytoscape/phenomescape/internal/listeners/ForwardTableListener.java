@@ -30,6 +30,8 @@ public class ForwardTableListener implements ActionListener {
 			if (index+2 <= listSize){
 				resultsPanel.setTableData(model.get(index+1),parameterModel.get(index+1));
 				resultsPanel.setCurrentIndex(index+1);
+				resultsPanel.summaryTableColumnResizer.adjustColumns();
+				resultsPanel.parameterTableColumnResizer.adjustColumns();
 			}
 		
 			

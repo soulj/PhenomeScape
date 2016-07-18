@@ -76,6 +76,22 @@ public class ColumnChangedListener implements ColumnCreatedListener, ColumnDelet
 				foldChangeComboModel.addElement(column.getName());
 				pvalueComboModel.addElement(column.getName());
 			}
+			String geneName = controlPanel.getGeneNameValue();
+			String foldChange = controlPanel.getFoldChangeValue();
+			String pvalue = controlPanel.getpvalueValue();
+			
+			if (geneNameComboModel.getIndexOf(geneName)>=0){
+				geneNameComboModel.setSelectedItem(geneName);
+			}
+			if (foldChangeComboModel.getIndexOf(foldChange)>=0){
+				foldChangeComboModel.setSelectedItem(foldChange);
+			}
+			if (pvalueComboModel.getIndexOf(pvalue)>=0){
+				pvalueComboModel.setSelectedItem(pvalue);
+			}
+			
+			
+			
 			controlPanel.setGeneName(geneNameComboModel);
 			controlPanel.setFoldChange(foldChangeComboModel);
 			controlPanel.setPvalue(pvalueComboModel);

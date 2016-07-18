@@ -107,7 +107,7 @@ public class ControlPanel extends JPanel implements CytoPanelComponent {
 		GridBagConstraints c = new GridBagConstraints();
 		c.ipadx = 0;
 		c.ipady = 0;
-		c.weightx=0.5;
+		c.weightx=0;
 		c.insets = new Insets(2, 2,2,2);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		// Initialise panel components
@@ -132,10 +132,12 @@ public class ControlPanel extends JPanel implements CytoPanelComponent {
 
 	private void createFilterText(GridBagConstraints c) {
 		c.gridx = 0;
+		c.weightx=0.05;
 		filterLabel = new JLabel("Filter Text:");
-        this.add(filterLabel);
+        this.add(filterLabel,c);
         c.gridx = 1;
         c.gridwidth = 2;
+        c.weightx=0.95;
         filterText = new JTextField();
         filterText.getDocument().addDocumentListener(
                 new DocumentListener() {
@@ -176,13 +178,18 @@ public class ControlPanel extends JPanel implements CytoPanelComponent {
 	private void createNetworkRow (GridBagConstraints c) {
 		networkLabel = new JLabel("Network");
 		//networkLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
+		//GridBagConstraints networkConstraints = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridwidth = 1;
+		c.weightx=0.2;
+		c.anchor = GridBagConstraints.EAST;
 		add(networkLabel, c);
 		networkCombo = new JComboBox();
+		c.anchor = GridBagConstraints.WEST;
 		c.gridx = 1;
 		c.gridwidth = 1;
-		add(networkCombo, c);
+		c.weightx=0.8;
+		add(networkCombo,c);
 	}
 
 	private void createSelectionRow(GridBagConstraints c) {
@@ -197,7 +204,7 @@ public class ControlPanel extends JPanel implements CytoPanelComponent {
 		
 		
 		geneNameLabel = new JLabel("Name");
-		
+		selectionConstraints.fill = GridBagConstraints.HORIZONTAL;
 		selectionConstraints.gridx = 0;
 		selectionConstraints.gridwidth = 1;
 		selectionPanel.add(geneNameLabel, selectionConstraints);

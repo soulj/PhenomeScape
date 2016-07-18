@@ -74,7 +74,6 @@ public class PhenomeExpressSubnetwork {
 			scores[i] = randomSubnetwork(network);
 		}
 		this.pvalue=calculatePValue(scores);
-		System.out.println("the pvalue is ="+ pvalue);
 		return(null);
 	}
 

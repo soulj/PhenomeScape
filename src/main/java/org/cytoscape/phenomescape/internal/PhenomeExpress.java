@@ -80,11 +80,14 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 	private ControlPanel controlPanel;
 	private String phenotypeSelected;
 	private double threshold;
-	private double minNetSize;
+	private int minNetSize;
 	private ArrayList<Phenotype> selectedPhenotypes;
 	private ArrayList<CyEdge> phenoEdges;
 	private ArrayList<CyNode> phenotypesAdded;
 	private VisualProperty property;
+	private String phenotypeNamesSelected;
+
+
 
 
 	public PhenomeExpress(ControlPanel controlPanel) throws FileNotFoundException {
@@ -127,6 +130,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 			if (phenotype.getSelected()){
 				if(first){
 					phenotypeSelected= phenotype.getID();
+					phenotypeNamesSelected=phenotype.getName();
 					selectedPhenotypes.add(phenotype);
 					phenoArray[phenotypeMap.get(phenotype.getID())]=1.0;
 					first=false;
@@ -134,6 +138,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				else{
 				
 					phenotypeSelected = phenotypeSelected + " ," + phenotype.getID();
+					phenotypeNamesSelected = phenotypeNamesSelected + " ," + phenotype.getName();
 					phenoArray[phenotypeMap.get(phenotype.getID())]=1.0;
 					selectedPhenotypes.add(phenotype);
 				}
@@ -291,7 +296,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				index++;
 				
 				goTermAnalyser.calculateGOTermPValues(subnet, proteinNetwork);
-				String subnetworkName = NetworkUtils.getUniqueNetworkName(cyServiceRegistrar,networkName + "_PE" + index);
+				String subnetworkName = NetworkUtils.getUniqueNetworkName(cyServiceRegistrar,networkName + "_" + subnet.getBestGOTerm());
 				subnet.setName(subnetworkName);
 				CySubNetwork subnetwork= NetworkUtils.createSubNetwork(((CySubNetwork)proteinNetwork.getNetwork()).getRootNetwork(),subnet.getNodeList());
 				subnetwork.getRow(subnetwork).set(CyNetwork.NAME, subnetworkName);
@@ -303,14 +308,6 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				viewManager.addNetworkView(nv);
 				CyApplicationManager cyApplicationManager = cyServiceRegistrar.getService(CyApplicationManager.class);
 				cyApplicationManager.setCurrentNetworkView(nv);
-//				RenderingEngineManager renderingEngineManager = cyServiceRegistrar.getService(RenderingEngineManager.class);
-//				viewManager.getNetworkViewSet();
-//				Collection<RenderingEngine<?>> engines = renderingEngineManager.getRenderingEngines(nv);
-//				VisualLexicon lex = engines.iterator().next().getVisualLexicon();
-//				VisualProperty prop = lex.lookup(CyNode.class, "NODE_LABEL_POSITION");
-//				Object value = prop.parseSerializableString("N,S,c,0.0,0.0");
-				
-
 				visualMappingManager.setVisualStyle(vs,nv);
 				vs.apply(nv);
 				nv.updateView();
@@ -343,17 +340,13 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 			}
 		}
 
-		
-
-		time = (System.currentTimeMillis()-time) ;
-		
-
 		phenomeNetwork=null;
 		proteinNetwork=null;
 		
 
 		ResultsPanel resultsPanel = (ResultsPanel) CytoPanelUtils.getCytoPanel(cyServiceRegistrar, ResultsPanel.class, CytoPanelName.EAST);
 		resultsPanel.newTableData(getResultsSummary(subnetworks), getParameterList());
+		CytoPanelUtils.showCytoPanel(cyServiceRegistrar,CytoPanelName.EAST);
 	}
 
 
@@ -428,19 +421,19 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		this.threshold=Double.parseDouble(controlPanel.getThresholdValue());
 		}
 		catch (Exception e) {
-			throw new IOException("Error in min p-value");
+			throw new IOException("Error in min p-value - must be a number");
 		}
 		if (this.threshold > 1.0 || this.threshold < 0.0){
-			throw new IOException("Error in min p-value");
+			throw new IOException("Error in min p-value - must be between 0 and 1");
 		}
 		try {
-		this.minNetSize=Double.parseDouble(controlPanel.getMinNetworkSize());
+		this.minNetSize=Integer.parseInt(controlPanel.getMinNetworkSize());
 		}
 		catch (Exception e) {
 			throw new IOException("Min network size must be an integer");
 		}
 		if (this.minNetSize<2){
-			throw new IOException("Error in min p-value - must be between 0 and 1");
+			throw new IOException("Error in min network size - must be greater than 1");
 		}
 		try {
 			this.maxIterations= Integer.parseInt(controlPanel.getPermuationValue());
@@ -481,8 +474,8 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		//filter by the expressionData
 		try {
 			proteinNetwork.filterByExpression(foldChange,pvalue,geneName);
-		} catch (IOException e) {
-			throw new Exception("Problem filtering the expression data");
+		} catch (IOException e) {				
+			throw e;
 		}
 
 	
@@ -491,10 +484,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		
 		phenoGeneNetwork = new PhenoGeneNetwork(controlPanel,species);
 		
-
-
-		CyNetwork phenoGeneNet = phenoGeneNetwork.getNetwork();
-		
+	
 		phenomeNetwork = phenomeNetwork.load();
 
 		
@@ -508,7 +498,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 	}
 
 	private void subnetworksSignificance(ArrayList<PhenomeExpressSubnetwork> subnetworks){
-		ExecutorService executor = Executors.newFixedThreadPool(4);
+		ExecutorService executor = Executors.newFixedThreadPool(Math.max((Runtime.getRuntime().availableProcessors()-1),1));
 		Collection<Callable<Double>> tasks = new ArrayList<>();
 		for(PhenomeExpressSubnetwork subnetwork:subnetworks){
 			Task task = new Task(proteinNetwork,subnetwork);
@@ -569,8 +559,8 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 	public ArrayList<String[]> getParameterList (){
 		ArrayList<String[]>  parameterData = new ArrayList<String[]>();
-		String[] parameters = {"Phenotypes", "Species","Max Network Size","Min Subnetwork Size", "Num. Random Subnetwork","pvalue threshold"};
-		String[] values = {this.phenotypeSelected,this.species,Double.toString(this.maxNetworkSize),Double.toString(this.minNetSize),Double.toString(this.maxIterations),Double.toString(this.threshold)};
+		String[] parameters = {"Phenotype IDs", "Phenotype Names","Species","Network Size","Min Subnetwork Size", "No. Random Subnetwork","Min p-value"};
+		String[] values = {this.phenotypeSelected,this.phenotypeNamesSelected,this.species,Integer.toString(this.maxNetworkSize),Integer.toString(this.minNetSize),Integer.toString(this.maxIterations),Double.toString(this.threshold)};
 
 		parameterData.add(parameters);
 		parameterData.add(values);

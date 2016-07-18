@@ -1,0 +1,29 @@
+Network Number	p-value	Enriched GO Term	
+HumanNetwork_metabolic process_1	1.0E-4	metabolic process	
+HumanNetwork_cellular sodium ion homeostasis_1	1.0E-4	cellular sodium ion homeostasis	
+HumanNetwork_extracellular matrix organization_1	1.0E-4	extracellular matrix organization	
+HumanNetwork_response to lipopolysaccharide_1	0.0065	response to lipopolysaccharide	
+HumanNetwork_positive regulation of osteoblast differentiation_1	0.0014	positive regulation of osteoblast differentiation	
+HumanNetwork_positive regulation of cell proliferation_1	5.0E-4	positive regulation of cell proliferation	
+HumanNetwork_transmembrane receptor protein tyrosine kinase signaling pathway_1	0.0021	transmembrane receptor protein tyrosine kinase signaling pathway	
+HumanNetwork_substantia nigra development_1	0.0448	substantia nigra development	
+HumanNetwork_glycosaminoglycan biosynthetic process_1	0.0125	glycosaminoglycan biosynthetic process	
+HumanNetwork_cellular protein modification process_1	0.006	cellular protein modification process	
+HumanNetwork_ephrin receptor signaling pathway_1	0.0153	ephrin receptor signaling pathway	
+HumanNetwork_neuron migration_1	0.0011	neuron migration	
+HumanNetwork_gap junction assembly_1	0.0161	gap junction assembly	
+HumanNetwork_response to purine-containing compound	0.0198	response to purine-containing compound	
+HumanNetwork_CENP-A containing nucleosome assembly_1	0.012	CENP-A containing nucleosome assembly	
+HumanNetwork_proximal/distal pattern formation	0.0337	proximal/distal pattern formation	
+HumanNetwork_O-glycan processing_1	0.0118	O-glycan processing	
+HumanNetwork_somite development_1	0.0152	somite development	
+HumanNetwork_BMP signaling pathway_1	0.0068	BMP signaling pathway	
+
+Parameters	Values	
+Phenotype IDs	HP:0002758 ,HP:0005086	
+PhenotypeNames	Osteoarthritis ,Knee osteoarthritis	
+Species	Human	
+Max Network Size	10.0	
+Min Subnetwork Size	4.0	
+Num. Random Subnetwork	10000.0	
+pvalue threshold	0.05	

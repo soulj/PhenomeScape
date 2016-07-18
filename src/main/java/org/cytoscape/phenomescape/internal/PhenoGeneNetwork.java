@@ -241,7 +241,7 @@ public class PhenoGeneNetwork {
 		
 
 		
-		System.out.println("Number of genes ="+ GeneName2IndexMap.size());
+		//System.out.println("Number of genes ="+ GeneName2IndexMap.size());
 		if(GeneNode2IndexMap.isEmpty()){
 			throw new Exception("No matching gene-phenotype associations - did you select the right species?");
 		}

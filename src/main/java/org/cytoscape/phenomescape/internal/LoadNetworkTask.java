@@ -11,6 +11,7 @@ import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.model.CyRow;
+import org.cytoscape.phenomescape.internal.util.NetworkUtils;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.ObservableTask;
@@ -43,7 +44,7 @@ public class LoadNetworkTask extends AbstractTask implements ObservableTask  {
 		
 		CyNetworkFactory networkFactory = cyServiceRegistrar.getService(CyNetworkFactory.class);
 		CyNetwork network = networkFactory.createNetwork();
-		network.getRow(network).set(CyNetwork.NAME, species + "Network");
+		network.getRow(network).set(CyNetwork.NAME, NetworkUtils.getUniqueNetworkName(cyServiceRegistrar, species + "Network"));
 		network.getDefaultEdgeTable().createColumn("Confidence",Double.class,false);
 
 		Map<String, CyNode>  nodeNameMap = new HashMap<String, CyNode>() ;

@@ -26,7 +26,7 @@ public class ExportMouseListener implements ActionListener {
 
 	public  ExportMouseListener (ResultsPanel resultsPanel) {
 		this.resultsPanel = resultsPanel;
-		this.filter=  new FileChooserFilter ("TSV files (.tsv", "tsv");
+		this.filter=  new FileChooserFilter ("TXT files (.txt", "txt");
 		this.filters.add(filter);
 	}
 
