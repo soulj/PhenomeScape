@@ -4,6 +4,6 @@
 
 Click on phenomescape-1.0.jar above and click download. In the Cytoscape app manager (Apps->App Manager) choose "install from file" and select the downloaded jar.
 
-A users guide can be found in PhenomeScape_Documentation.doc
+A users guide can be found in PhenomeScape_Documentation.pdf
 
 Example gene expression data is provided.
