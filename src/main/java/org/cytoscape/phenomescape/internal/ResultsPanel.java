@@ -207,7 +207,7 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent{
 
 	public void newTableData(ArrayList<String[]> tableData,ArrayList<String[]> parameterData) {
 		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("Network Number");
+		model.addColumn("Network Name");
 		model.addColumn("p-value");
 		model.addColumn("Enriched GO Term");
 		DefaultTableModel parameterModel = new DefaultTableModel();
