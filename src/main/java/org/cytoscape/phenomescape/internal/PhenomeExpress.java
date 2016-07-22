@@ -352,8 +352,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 	private VisualProperty getNodeLabelPostitionProperty() {
 		RenderingEngineManager renderingEngineManager = cyServiceRegistrar.getService(RenderingEngineManager.class);
-		RenderingEngine engine = renderingEngineManager.getAllRenderingEngines().iterator().next();
-		VisualLexicon lex = engine.getVisualLexicon();
+		VisualLexicon lex = renderingEngineManager.getDefaultVisualLexicon();
 		VisualProperty prop = lex.lookup(CyNode.class, "NODE_LABEL_POSITION");
 		return prop;
 	}
