@@ -396,6 +396,9 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 						phenotypesAdded.add(phenoNode);
 						proteinNetwork.getNetwork().addEdge(phenoNode,node,true);
 						CyEdge addedEdge = subnetwork.addEdge(phenoNode,node,true);
+						String proteinName = proteinNetwork.getIndex2ProteinMap().get(proteinIndex).getName();
+						proteinNetwork.getEdgeTable().getRow(addedEdge.getSUID()).set("interaction","pgi");
+						proteinNetwork.getEdgeTable().getRow(addedEdge.getSUID()).set("name",phenotype.getID()+" (pgi) "+proteinName);
 						phenoEdges.add(addedEdge);
 						
 					}
