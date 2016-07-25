@@ -33,6 +33,7 @@ import org.cytoscape.view.model.View;
 import org.cytoscape.view.model.VisualLexicon;
 import org.cytoscape.view.model.VisualProperty;
 import org.cytoscape.view.presentation.RenderingEngine;
+import org.cytoscape.view.presentation.RenderingEngineFactory;
 import org.cytoscape.view.presentation.RenderingEngineManager;
 import org.cytoscape.view.presentation.property.BasicVisualLexicon;
 import org.cytoscape.view.presentation.property.LineTypeVisualProperty;
@@ -351,8 +352,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 
 	private VisualProperty getNodeLabelPostitionProperty() {
-		RenderingEngineManager renderingEngineManager = cyServiceRegistrar.getService(RenderingEngineManager.class);
-		VisualLexicon lex = renderingEngineManager.getDefaultVisualLexicon();
+		VisualLexicon lex = cyServiceRegistrar.getService(RenderingEngineFactory.class).getVisualLexicon();
 		VisualProperty prop = lex.lookup(CyNode.class, "NODE_LABEL_POSITION");
 		return prop;
 	}
