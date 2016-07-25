@@ -267,6 +267,8 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		// Apply the visual style to a NetworkView
 		VizStyle vizStyle = new VizStyle();
 		VisualStyle vs = vizStyle.createVizStyle(cyServiceRegistrar, geneName, foldChange, fcMax, fcMin);
+		this.property = getNodeLabelPositionProperty();
+		vs.setDefaultValue(property, property.parseSerializableString("N,S,c,0.0,0.0"));
 		CyNetworkViewFactory networkViewFactory = cyServiceRegistrar.getService(CyNetworkViewFactory.class);
 
 
@@ -313,15 +315,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				vs.apply(nv);
 				nv.updateView();
 				viewManager.addNetworkView(nv);
-				if (this.property == null){				
-					this.property = getNodeLabelPostitionProperty();
-				}	
-				vs.setDefaultValue(property, property.parseSerializableString("N,S,c,0.0,0.0"));
-				visualMappingManager.setVisualStyle(vs,nv);
-				vs.apply(nv);
-				nv.updateView();
-
-				
+						
 				for (CyNode phenoNode: phenotypesAdded){
 					View<CyNode> nodeView=nv.getNodeView(phenoNode);
 					nodeView.setLockedValue(BasicVisualLexicon.NODE_SHAPE,NodeShapeVisualProperty.RECTANGLE);
@@ -351,7 +345,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 	}
 
 
-	private VisualProperty getNodeLabelPostitionProperty() {
+	private VisualProperty getNodeLabelPositionProperty() {
 		VisualLexicon lex = cyServiceRegistrar.getService(RenderingEngineFactory.class).getVisualLexicon();
 		VisualProperty prop = lex.lookup(CyNode.class, "NODE_LABEL_POSITION");
 		return prop;
