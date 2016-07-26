@@ -313,8 +313,8 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				cyApplicationManager.setCurrentNetworkView(nv);
 				visualMappingManager.setVisualStyle(vs,nv);
 				vs.apply(nv);
-				nv.updateView();
-				viewManager.addNetworkView(nv);
+				
+				//viewManager.addNetworkView(nv);
 						
 				for (CyNode phenoNode: phenotypesAdded){
 					View<CyNode> nodeView=nv.getNodeView(phenoNode);
@@ -329,9 +329,10 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 					
 					
 				}
+				
 				Set<View<CyNode>> nodeSet = Collections.emptySet();
 				cyServiceRegistrar.getService(TaskManager.class).execute(layout.createTaskIterator(nv,context,nodeSet,null));
-
+				nv.updateView();
 			}
 		}
 
