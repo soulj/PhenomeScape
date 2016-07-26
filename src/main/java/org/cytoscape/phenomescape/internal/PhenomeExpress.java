@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CytoPanelName;
+import org.cytoscape.event.CyEventHelper;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkManager;
@@ -269,16 +270,16 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		VisualStyle vs = vizStyle.createVizStyle(cyServiceRegistrar, geneName, foldChange, fcMax, fcMin);
 		this.property = getNodeLabelPositionProperty();
 		vs.setDefaultValue(property, property.parseSerializableString("N,S,c,0.0,0.0"));
-		
 		VisualMappingManager visualMappingManager = cyServiceRegistrar.getService(VisualMappingManager.class);
 		visualMappingManager.setCurrentVisualStyle(vs);
-
+		ArrayList<CyNetworkView>  networkViewList = new ArrayList<CyNetworkView>();
 		
 		Iterator<PhenomeExpressSubnetwork> it2 = subnetworks.iterator();
 
 		CyNetworkManager networkManager = cyServiceRegistrar.getService(CyNetworkManager.class);
 		CyNetworkViewFactory networkViewFactory = cyServiceRegistrar.getService(CyNetworkViewFactory.class);
 		CyLayoutAlgorithmManager layoutManager= cyServiceRegistrar.getService(CyLayoutAlgorithmManager.class);
+		CyApplicationManager cyApplicationManager = cyServiceRegistrar.getService(CyApplicationManager.class);
 		CyLayoutAlgorithm layout = layoutManager.getLayout("force-directed");
 		Map<String, Object> settings = new HashMap<String, Object>();
 		settings.put("defaultSpringLength", 5.0);
@@ -308,10 +309,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				CyNetworkViewManager viewManager = cyServiceRegistrar.getService(CyNetworkViewManager.class);
 				CyNetworkView nv = networkViewFactory.createNetworkView(subnetwork);
 				viewManager.addNetworkView(nv);
-				CyApplicationManager cyApplicationManager = cyServiceRegistrar.getService(CyApplicationManager.class);
 				cyApplicationManager.setCurrentNetworkView(nv);
-			
-				//viewManager.addNetworkView(nv);
 						
 				for (CyNode phenoNode: phenotypesAdded){
 					View<CyNode> nodeView=nv.getNodeView(phenoNode);
@@ -323,17 +321,27 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 					View<CyEdge> edgeView=nv.getEdgeView(phenoEdge);
 					edgeView.setLockedValue(BasicVisualLexicon.EDGE_LINE_TYPE,LineTypeVisualProperty.DOT);
 					edgeView.setLockedValue(BasicVisualLexicon.EDGE_PAINT,Color.BLUE);
-					
-					
+										
 				}
 				
+				networkViewList.add(nv);
 				Set<View<CyNode>> nodeSet = Collections.emptySet();
 				cyServiceRegistrar.getService(TaskManager.class).execute(layout.createTaskIterator(nv,context,nodeSet,null));
-				visualMappingManager.setVisualStyle(vs,nv);
-				vs.apply(nv);
-				nv.updateView();
+						
 			}
 		}
+		
+		CyEventHelper cyEventHelper = cyServiceRegistrar.getService(CyEventHelper.class);
+		
+		for (CyNetworkView nv : networkViewList){
+			visualMappingManager.setVisualStyle(vs,nv);
+			vs.apply(nv);
+			cyEventHelper.flushPayloadEvents();
+			cyApplicationManager.setCurrentNetworkView(nv);
+			nv.updateView();			
+		}
+		
+		
 
 		phenomeNetwork=null;
 		proteinNetwork=null;
