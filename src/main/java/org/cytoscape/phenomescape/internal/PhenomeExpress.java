@@ -269,14 +269,15 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		VisualStyle vs = vizStyle.createVizStyle(cyServiceRegistrar, geneName, foldChange, fcMax, fcMin);
 		this.property = getNodeLabelPositionProperty();
 		vs.setDefaultValue(property, property.parseSerializableString("N,S,c,0.0,0.0"));
-		CyNetworkViewFactory networkViewFactory = cyServiceRegistrar.getService(CyNetworkViewFactory.class);
-
+		
+		VisualMappingManager visualMappingManager = cyServiceRegistrar.getService(VisualMappingManager.class);
+		visualMappingManager.setCurrentVisualStyle(vs);
 
 		
 		Iterator<PhenomeExpressSubnetwork> it2 = subnetworks.iterator();
 
 		CyNetworkManager networkManager = cyServiceRegistrar.getService(CyNetworkManager.class);
-		VisualMappingManager visualMappingManager = cyServiceRegistrar.getService(VisualMappingManager.class);
+		CyNetworkViewFactory networkViewFactory = cyServiceRegistrar.getService(CyNetworkViewFactory.class);
 		CyLayoutAlgorithmManager layoutManager= cyServiceRegistrar.getService(CyLayoutAlgorithmManager.class);
 		CyLayoutAlgorithm layout = layoutManager.getLayout("force-directed");
 		Map<String, Object> settings = new HashMap<String, Object>();
@@ -288,7 +289,6 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		
 		GOTermAnalyser2 goTermAnalyser = new GOTermAnalyser2(proteinNetwork,species);
 		
-		int index=0;
 		while(it2.hasNext()){
 
 			PhenomeExpressSubnetwork subnet = it2.next();
@@ -296,8 +296,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				it2.remove();
 			}
 			else{
-				index++;
-				
+						
 				goTermAnalyser.calculateGOTermPValues(subnet, proteinNetwork);
 				String subnetworkName = NetworkUtils.getUniqueNetworkName(cyServiceRegistrar,networkName + "_" + subnet.getBestGOTerm());
 				subnet.setName(subnetworkName);
@@ -311,9 +310,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				viewManager.addNetworkView(nv);
 				CyApplicationManager cyApplicationManager = cyServiceRegistrar.getService(CyApplicationManager.class);
 				cyApplicationManager.setCurrentNetworkView(nv);
-				visualMappingManager.setVisualStyle(vs,nv);
-				vs.apply(nv);
-				
+			
 				//viewManager.addNetworkView(nv);
 						
 				for (CyNode phenoNode: phenotypesAdded){
@@ -332,6 +329,8 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				
 				Set<View<CyNode>> nodeSet = Collections.emptySet();
 				cyServiceRegistrar.getService(TaskManager.class).execute(layout.createTaskIterator(nv,context,nodeSet,null));
+				visualMappingManager.setVisualStyle(vs,nv);
+				vs.apply(nv);
 				nv.updateView();
 			}
 		}
