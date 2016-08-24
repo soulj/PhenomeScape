@@ -112,6 +112,7 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent{
 		};
 
 		summaryTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		summaryTable.setAutoCreateRowSorter(true);
 		summaryTableColumnResizer = new TableColumnResizer(summaryTable);
 		summaryTableColumnResizer.adjustColumns();
 		pane = new JScrollPane();
