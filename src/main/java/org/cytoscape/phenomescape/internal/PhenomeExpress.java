@@ -116,6 +116,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 		inputCheck();
 		setUpNetworks();
+		
 
 
 		double[] relativeWeighting= {0.2,0.3,0.4,0.5,0.6,0.7,0.8};
@@ -354,7 +355,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 
 	private VisualProperty getNodeLabelPositionProperty() {
-		VisualLexicon lex = cyServiceRegistrar.getService(RenderingEngineFactory.class,"(id=ding)").getVisualLexicon();
+		VisualLexicon lex = cyServiceRegistrar.getService(RenderingEngineFactory.class).getVisualLexicon();
 		VisualProperty prop = lex.lookup(CyNode.class, "NODE_LABEL_POSITION");
 		return prop;
 	}
@@ -369,6 +370,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 			HashMap<String, Integer> nameMap = phenoGeneNetwork.getPhenotypeName2IndexMap();
 			Integer index = nameMap.get(phenotype.getID());
 			
+			if (index ==null) {continue;}			
 			AVector row = phenoGeneNetwork.getBipartiteAdjMatrix().getRow(Integer.valueOf(index));
 			for (CyNode node:subnetwork.getNodeList()){
 				//get the node index
