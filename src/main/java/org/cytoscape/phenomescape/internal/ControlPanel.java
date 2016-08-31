@@ -40,6 +40,7 @@ import org.cytoscape.phenomescape.internal.listeners.AnalyseMouseListener;
 import org.cytoscape.phenomescape.internal.listeners.ColumnChangedListener;
 import org.cytoscape.phenomescape.internal.listeners.NetworkComboBoxAddedNetwork;
 import org.cytoscape.phenomescape.internal.listeners.NetworkComboBoxRemovedNetwork;
+import org.cytoscape.phenomescape.internal.listeners.NetworkNameChangedListener;
 import org.cytoscape.phenomescape.internal.listeners.NetworkSelectedListener;
 import org.cytoscape.phenomescape.internal.util.TableManager;
 import org.cytoscape.service.util.CyServiceRegistrar;
@@ -94,6 +95,9 @@ public class ControlPanel extends JPanel implements CytoPanelComponent {
 		
 		ColumnChangedListener columnChangedListener = new ColumnChangedListener(this);
 		cyServiceRegistrar.registerAllServices(columnChangedListener, new Properties());
+		
+		NetworkNameChangedListener networkNameChangedListener = new NetworkNameChangedListener(this,networkCombo);
+		cyServiceRegistrar.registerAllServices(networkNameChangedListener, new Properties());
 		
 
 		this.setVisible(true);

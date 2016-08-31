@@ -354,7 +354,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 
 	private VisualProperty getNodeLabelPositionProperty() {
-		VisualLexicon lex = cyServiceRegistrar.getService(RenderingEngineFactory.class).getVisualLexicon();
+		VisualLexicon lex = cyServiceRegistrar.getService(RenderingEngineFactory.class,"(id=ding)").getVisualLexicon();
 		VisualProperty prop = lex.lookup(CyNode.class, "NODE_LABEL_POSITION");
 		return prop;
 	}
@@ -465,7 +465,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 	private void setUpNetworks() throws Exception {
 		//get the network
-		CommandExecutor.execute("network set current network=" + networkName, cyServiceRegistrar);
+		CommandExecutor.execute("network set current network=" + '"'+ networkName  +'"', cyServiceRegistrar);
 		selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
 
 		//create the protein network		

@@ -55,15 +55,18 @@ public class ColumnChangedListener implements ColumnCreatedListener, ColumnDelet
 
 	@Override
 	public void handleEvent(ColumnNameChangedEvent  event) {
-		updateComboOptions();
+				updateComboOptions();
 
 	}       
+
+
+
 
 
 	public void updateComboOptions(){
 		CyServiceRegistrar cyServiceRegistrar = controlPanel.cyServiceRegistrar;
 		if (controlPanel.getNetworkValue()!=null){
-			CommandExecutor.execute("network set current network=" + controlPanel.getNetworkValue(), cyServiceRegistrar);
+			CommandExecutor.execute("network set current network=" + '"' + controlPanel.getNetworkValue()+'"', cyServiceRegistrar);
 			CyNetwork selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
 
 			CyTable selectedTable = selectedNetwork.getDefaultNodeTable();
