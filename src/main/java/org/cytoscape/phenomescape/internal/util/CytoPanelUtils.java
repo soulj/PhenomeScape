@@ -2,6 +2,8 @@ package org.cytoscape.phenomescape.internal.util;
 
 import java.awt.Component;
 
+import javax.swing.JFrame;
+
 import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.application.swing.CytoPanel;
 import org.cytoscape.application.swing.CytoPanelComponent;
@@ -20,6 +22,17 @@ public class CytoPanelUtils {
 		}
 		return null;
 	}
+	
+	public static JFrame getJFrame (CyServiceRegistrar cyServiceRegistrar) {
+		JFrame jFrame = cyServiceRegistrar.getService(CySwingApplication.class).getJFrame();
+		return jFrame;
+		
+		
+	}
+	
+	
+
+	
 	
 	public static CytoPanelComponent getCytoPanel (CyServiceRegistrar cyServiceRegistrar, Class<? extends CytoPanelComponent> panelClass) {
 		for (CytoPanelName panelName : CytoPanelName.values()) {

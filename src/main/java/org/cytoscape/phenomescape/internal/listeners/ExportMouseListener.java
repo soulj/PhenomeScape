@@ -14,6 +14,7 @@ import org.cytoscape.phenomescape.internal.ResultsPanel;
 import org.cytoscape.phenomescape.internal.util.ExportTable;
 import org.cytoscape.util.swing.FileChooserFilter;
 import org.cytoscape.util.swing.FileUtil;
+import org.cytoscape.phenomescape.internal.util.CytoPanelUtils;
 
 
 public class ExportMouseListener implements ActionListener {
@@ -35,11 +36,14 @@ public class ExportMouseListener implements ActionListener {
 		this.summaryjTable = resultsPanel.getSummaryTable();
 		this.parameterjTable = resultsPanel.getParameterTable();
 		if (summaryjTable != null) {
-			File file =resultsPanel.cyServiceRegistrar.getService(org.cytoscape.util.swing.FileUtil.class).getFile(resultsPanel,"Export Table",FileUtil.SAVE,filters);
-			try {
-				ExportTable.toTSV(summaryjTable,parameterjTable,file );
-			} catch (Exception e) {
-				e.printStackTrace();
+			FileUtil fileUtil = resultsPanel.cyServiceRegistrar.getService(org.cytoscape.util.swing.FileUtil.class);
+			File file = fileUtil.getFile(CytoPanelUtils.getJFrame(resultsPanel.cyServiceRegistrar),"Export Table",FileUtil.SAVE,filters);
+			if (file != null) {
+				try {
+					ExportTable.toTSV(summaryjTable,parameterjTable,file );
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
