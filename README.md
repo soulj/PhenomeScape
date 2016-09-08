@@ -12,5 +12,6 @@ Example gene expression data is provided.
 
 |Date|Version|Details|
 |----------------|------------|--------------------------------------------------------------------|
+|2016-Sept-08 |  v1.0.3| Fixed table export bug occuring on some platforms |
 |2016-Aug-31 |  v1.0.2| Improved Human to Mouse known disease gene mapping |
 |2016-Aug-31 |  v1.0.1| Fixed bug causing app to fail with network names containing spaces |
