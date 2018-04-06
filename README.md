@@ -2,7 +2,9 @@
 
 <h3>Installation</h3>
 
-Click on phenomescape-1.0.jar above and click download. In the Cytoscape app manager (Apps->App Manager) choose "install from file" and select the downloaded jar.
+For simple installation visit http://apps.cytoscape.org/apps/phenomescape and click download.
+
+Alternatively, click on phenomescape-1.0.jar above and click download. In the Cytoscape app manager (Apps->App Manager) choose "install from file" and select the downloaded jar.
 
 A users guide can be found in PhenomeScape_Documentation.pdf
 
