@@ -22,6 +22,7 @@ import org.cytoscape.model.events.ColumnNameChangedListener;
 import org.cytoscape.phenomescape.internal.ControlPanel;
 import org.cytoscape.phenomescape.internal.util.CommandExecutor;
 import org.cytoscape.service.util.CyServiceRegistrar;
+import org.cytoscape.phenomescape.internal.util.NetworkUtils;
 
 
 public class ColumnChangedListener implements ColumnCreatedListener, ColumnDeletedListener,ColumnNameChangedListener  {
@@ -66,8 +67,11 @@ public class ColumnChangedListener implements ColumnCreatedListener, ColumnDelet
 	public void updateComboOptions(){
 		CyServiceRegistrar cyServiceRegistrar = controlPanel.cyServiceRegistrar;
 		if (controlPanel.getNetworkValue()!=null){
-			CommandExecutor.execute("network set current network=" + '"' + controlPanel.getNetworkValue()+'"', cyServiceRegistrar);
-			CyNetwork selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
+			//CommandExecutor.execute("network set current network=" + '"' + controlPanel.getNetworkValue()+'"', cyServiceRegistrar);
+			
+			CyNetwork selectedNetwork = NetworkUtils.getCyNetwork(cyServiceRegistrar,controlPanel.getNetworkValue());
+						
+			//CyNetwork selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
 
 			CyTable selectedTable = selectedNetwork.getDefaultNodeTable();
 			Collection<CyColumn> columns = selectedTable.getColumns();

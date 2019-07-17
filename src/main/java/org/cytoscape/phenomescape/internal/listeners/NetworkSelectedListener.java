@@ -14,6 +14,7 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyTable;
 import org.cytoscape.phenomescape.internal.ControlPanel;
 import org.cytoscape.phenomescape.internal.util.CommandExecutor;
+import org.cytoscape.phenomescape.internal.util.NetworkUtils;
 import org.cytoscape.service.util.CyServiceRegistrar;
 
 
@@ -36,9 +37,10 @@ public class NetworkSelectedListener implements ItemListener  {
     	   CyServiceRegistrar cyServiceRegistrar = controlPanel.cyServiceRegistrar;
     	   JComboBox comboBox = (JComboBox) event.getSource();
     	   String item = (String) comboBox.getSelectedItem();
-   		CommandExecutor.execute("network set current network=" + '"' + item + '"', cyServiceRegistrar);
-   		CyNetwork selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
-    	 
+//   		CommandExecutor.execute("network set current network=" + '"' + item + '"', cyServiceRegistrar);
+//   		CyNetwork selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
+    	   CyNetwork selectedNetwork = NetworkUtils.getCyNetwork(cyServiceRegistrar,controlPanel.getNetworkValue());
+    	   
     	  CyTable selectedTable = selectedNetwork.getDefaultNodeTable();
           Collection<CyColumn> columns = selectedTable.getColumns();
           DefaultComboBoxModel geneNameComboModel = new DefaultComboBoxModel();

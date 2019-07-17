@@ -304,7 +304,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 				subnet.setName(subnetworkName);
 				CySubNetwork subnetwork= NetworkUtils.createSubNetwork(((CySubNetwork)proteinNetwork.getNetwork()).getRootNetwork(),subnet.getNodeList());
 				subnetwork.getRow(subnetwork).set(CyNetwork.NAME, subnetworkName);
-				addSeedPhenotypes(subnetwork);
+				addSeedPhenotypes(subnetwork,geneName);
 				
 				networkManager.addNetwork(subnetwork);
 				CyNetworkViewManager viewManager = cyServiceRegistrar.getService(CyNetworkViewManager.class);
@@ -360,7 +360,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		return prop;
 	}
 
-	private void addSeedPhenotypes(CySubNetwork subnetwork) {
+	private void addSeedPhenotypes(CySubNetwork subnetwork,String geneNameName) {
 		phenotypesAdded = new ArrayList<CyNode>();
 		phenoEdges = new ArrayList<CyEdge>();
 		if( proteinNetwork.getNodeTable().getColumn("PhenotypeID") == null) {
@@ -386,7 +386,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 						phenoNode  =proteinNetwork.getNetwork().addNode();
 						proteinNetwork.getNodeTable().getRow(phenoNode.getSUID()).set(CyNetwork.NAME, phenotype.getID());
 						proteinNetwork.getNodeTable().getRow(phenoNode.getSUID()).set("name", phenotype.getID());
-						proteinNetwork.getNodeTable().getRow(phenoNode.getSUID()).set("PhenotypeID", phenotype.getName());
+						proteinNetwork.getNodeTable().getRow(phenoNode.getSUID()).set(geneNameName, phenotype.getName());
 						
 						
 					}
@@ -467,9 +467,9 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 	private void setUpNetworks() throws Exception {
 		//get the network
-		CommandExecutor.execute("network set current network=" + '"'+ networkName  +'"', cyServiceRegistrar);
-		selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
-
+//		CommandExecutor.execute("network set current network=" + '"'+ networkName  +'"', cyServiceRegistrar);
+//		selectedNetwork = cyServiceRegistrar.getService(CyApplicationManager.class).getCurrentNetwork();
+		selectedNetwork = NetworkUtils.getCyNetwork(cyServiceRegistrar,controlPanel.getNetworkValue());
 		//create the protein network		
 		proteinNetwork = new ProteinNetwork(selectedNetwork);
 
@@ -486,7 +486,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 
 	
 
-		proteinNetwork.createSparseAdjMatrix();
+		proteinNetwork.createSparseAdjMatrix(geneName);
 		
 		phenoGeneNetwork = new PhenoGeneNetwork(controlPanel,species);
 		

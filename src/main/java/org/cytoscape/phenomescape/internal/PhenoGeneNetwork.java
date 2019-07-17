@@ -241,9 +241,9 @@ public class PhenoGeneNetwork {
 		
 
 		
-		//System.out.println("Number of genes ="+ GeneName2IndexMap.size());
+		System.out.println("Number of genes ="+ GeneName2IndexMap.size());
 		if(GeneNode2IndexMap.isEmpty()){
-			throw new Exception("No matching gene-phenotype associations - did you select the right species?");
+			throw new Exception("No matching gene-phenotype associations - toubleshooting: \n Did you select the right species? \n Did you select the correct gene symbol column? \n Is the network a full protein-protein interaction network with 1000's of proteins?");
 		}
 		
 

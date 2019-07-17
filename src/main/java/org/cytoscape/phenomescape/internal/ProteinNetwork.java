@@ -127,7 +127,7 @@ public class ProteinNetwork  {
 		return pivalues;
 	}
 
-	public void createSparseAdjMatrix() {
+	public void createSparseAdjMatrix(String geneNameName) {
 
 		int totalnodecount = network.getNodeList().size();
 		nodeCount=totalnodecount;
@@ -145,7 +145,7 @@ public class ProteinNetwork  {
 		for (CyNode node: cyNodes){
 
 			Node2IndexMap.put(node,i);
-			String name1 =nodeTable.getRow(node.getSUID()).get("name",String.class);
+			String name1 =nodeTable.getRow(node.getSUID()).get(geneNameName,String.class);
 			Name2IndexMap.put(name1,i);
 			Index2ProteinMap.put(i,new Protein(i,name1,node,pivalues[i]));
 			i++;
