@@ -33,6 +33,8 @@ import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.view.model.View;
 import org.cytoscape.view.model.VisualLexicon;
 import org.cytoscape.view.model.VisualProperty;
+import org.cytoscape.view.presentation.property.values.ObjectPosition;
+import org.cytoscape.view.presentation.property.values.Position;
 import org.cytoscape.view.presentation.RenderingEngine;
 import org.cytoscape.view.presentation.RenderingEngineFactory;
 import org.cytoscape.view.presentation.RenderingEngineManager;
@@ -269,8 +271,12 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		// Apply the visual style to a NetworkView
 		VizStyle vizStyle = new VizStyle();
 		VisualStyle vs = vizStyle.createVizStyle(cyServiceRegistrar, geneName, foldChange, fcMax, fcMin);
-		this.property = getNodeLabelPositionProperty();
-		vs.setDefaultValue(property, property.parseSerializableString("N,S,c,0.0,0.0"));
+		//this.property = getNodeLabelPositionProperty();
+		ObjectPosition pos = new ObjectPosition();
+		pos.setTargetAnchor(Position.NORTH);
+		pos.setAnchor(Position.SOUTH);
+		vs.setDefaultValue(BasicVisualLexicon.NODE_LABEL_POSITION,pos);
+		//vs.setDefaultValue(property, property.parseSerializableString("N,S,c,0.0,0.0"));
 		VisualMappingManager visualMappingManager = cyServiceRegistrar.getService(VisualMappingManager.class);
 		visualMappingManager.setCurrentVisualStyle(vs);
 		ArrayList<CyNetworkView>  networkViewList = new ArrayList<CyNetworkView>();
@@ -290,6 +296,8 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 		setter.applyTunables(context, settings);
 		
 		GOTermAnalyser2 goTermAnalyser = new GOTermAnalyser2(proteinNetwork,species);
+		
+
 		
 		while(it2.hasNext()){
 
@@ -316,6 +324,7 @@ public class PhenomeExpress extends AbstractTask implements ObservableTask {
 					View<CyNode> nodeView=nv.getNodeView(phenoNode);
 					nodeView.setLockedValue(BasicVisualLexicon.NODE_SHAPE,NodeShapeVisualProperty.RECTANGLE);
 					nodeView.setLockedValue(BasicVisualLexicon.NODE_FILL_COLOR,Color.BLUE);
+					nodeView.setLockedValue(BasicVisualLexicon.NODE_LABEL_POSITION,pos);
 					
 				}
 				for (CyEdge phenoEdge:phenoEdges){

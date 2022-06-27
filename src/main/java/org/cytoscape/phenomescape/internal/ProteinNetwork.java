@@ -1,6 +1,5 @@
 package org.cytoscape.phenomescape.internal;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,14 +15,14 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyTable;
+import org.cytoscape.phenomescape.internal.util.CCInfo;
+import org.cytoscape.phenomescape.internal.util.ConnectedComponentAnalyser;
+import org.cytoscape.phenomescape.internal.util.NetworkUtils;
+
 
 import mikera.matrixx.AMatrix;
 import mikera.matrixx.impl.SparseRowMatrix;
 import mikera.vectorz.AVector;
-
-import org.cytoscape.phenomescape.internal.util.CCInfo;
-import org.cytoscape.phenomescape.internal.util.ConnectedComponentAnalyser;
-import org.cytoscape.phenomescape.internal.util.NetworkUtils;
 
 
 public class ProteinNetwork  {
@@ -51,7 +50,7 @@ public class ProteinNetwork  {
 
 		try{	
 			Set<CyNode> nodesToBeRemoved= NetworkUtils.getNodeswithFoldChange(this.network,this.nodeTable , foldChangeName, pvalueName,"");
-			if (nodesToBeRemoved.size()>0){
+			if (!nodesToBeRemoved.isEmpty()){
 				filterNetwork(nodesToBeRemoved);
 			}
 		}
@@ -81,6 +80,7 @@ public class ProteinNetwork  {
 		if (nodeTable.getColumn(foldChangeName).getType() != Double.class){
 			throw new IOException("The fold change values have to be numeric");
 		};
+
 		if (Collections.min(nodeTable.getColumn(pvalueName).getValues(Double.class))<0){
 			throw new IOException("The p-values have to be positive");
 		}
@@ -269,9 +269,7 @@ public class ProteinNetwork  {
 		}	
 
 		network.removeNodes(nodesToBeRemoved);
-		network.removeEdges(edgesToBeRemoved);
-		network.getDefaultNodeTable().deleteRows(pNKeys);
-		network.getDefaultEdgeTable().deleteRows(pEKeys);
+
 	}
 
 	public Map<Integer, CyNode> getIndex2NodeMap() {
