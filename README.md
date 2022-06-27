@@ -14,6 +14,7 @@ Example gene expression data is provided.
 
 |Date|Version|Details|
 |----------------|------------|--------------------------------------------------------------------|
+|2022-June-27 |  v1.0.5| Update for compatibility with  Cytoscape v3.9.1 |
 |2019-July-17 |  v1.0.4| Fixed column selection bugs and compatability with  Cytoscape ≥ v3.6 |
 |2016-Sept-08 |  v1.0.3| Fixed table export bug occuring on some platforms |
 |2016-Aug-31 |  v1.0.2| Improved Human to Mouse known disease gene mapping |
